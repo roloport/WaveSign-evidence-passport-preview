@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical overview of integrating the current WaveSign signed-file package into an evidence workflow, including required inputs and limitations.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Integrate WaveSign · Evidence Passport Demo</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header"><div class="shell header-inner">
+    <a class="brand" href="index.html" aria-label="WaveSign Evidence Passport home"><img src="assets/wavesign-mark.png" alt="" width="48" height="55"><span>WaveSign <small>Evidence Passport</small></span></a>
+    <nav aria-label="Main navigation"><a href="index.html">Passport demo</a><a aria-current="page" href="integrate.html">Integrate WaveSign</a><a href="https://wave-sign.com/" rel="noopener">Main site ↗</a></nav>
+  </div></header>
+  <div class="preview-banner"><div class="shell"><strong>Founder review preview</strong><span>Integration access and customer data handling require a scoped pilot agreement</span></div></div>
+  <main id="main" class="shell">
+    <div class="doc-hero"><p class="eyebrow">Integration concept · current behavior</p><h1>Keep the evidence record and signed file together.</h1><p class="lede">WaveSign returns a signed media package. Your application owns the asset record, issuer review, key policy, access rules, and long-term storage. The current browser signer demonstrates the operation; protected backend integration is scoped with each pilot.</p><div class="hero-actions"><a class="button primary" href="index.html#try-it">Try a synthetic sample</a><a class="button secondary" href="index.html#passport">Explore the Passport</a></div></div>
+    <div class="doc-layout"><nav class="toc" aria-label="On this page"><a href="#sequence">Workflow</a><a href="#contract">Observed API</a><a href="#storage">Custody and limits</a><a href="#errors">Failure handling</a><a href="#passport-added">Passport layer</a><a href="#pilot">Pilot prerequisites</a></nav>
+      <div class="prose">
+        <section id="sequence"><p class="label">01 / Workflow</p><h2>From issuance to review</h2>
+          <div class="flow" aria-label="Six-step integration sequence"><div><span>01 · CUSTOMER</span><strong>Select evidence</strong>Choose an authorized image or visual PDF and assign an internal asset/version ID.</div><div><span>02 · CUSTOMER BACKEND</span><strong>Request signing</strong>Submit media and a key to a protected WaveSign integration, once access terms are agreed.</div><div><span>03 · WAVESIGN</span><strong>Return package</strong>Receive a ZIP with signed media and matching <code>sig.json</code>.</div><div><span>04 · CUSTOMER</span><strong>Store together</strong>Retain both files, key custody instructions, internal ID, assertions, and source references.</div><div><span>05 · REVIEWER</span><strong>Request verification</strong>Supply signed media, matching metadata, and the same key through the authorized flow.</div><div><span>06 · CUSTOMER</span><strong>Interpret result</strong>Record technical outcome separately from issuer identity, provenance, and rights review.</div></div>
+          <p>For an immediate walkthrough, the existing <a href="https://wave-sign.com/image-signing">browser signer</a> accepts a synthetic file and returns the package. A customer backend would call the protected signing service after authentication, file policy, retention, and key management have been specified. This page is a conceptual integration guide, not an offer of unrestricted API access or a service-level commitment.</p>
+        </section>
+        <section id="contract"><p class="label">02 / Interface observed on the current site</p><h2>Inputs and outputs</h2>
+          <div class="table-wrap"><table class="doc-table"><thead><tr><th scope="col">Operation</th><th scope="col">Request</th><th scope="col">Response</th></tr></thead><tbody>
+            <tr><td><code>POST /api/v1/signing/package/sign</code></td><td>Multipart <code>file</code> and <code>key</code></td><td>ZIP with signed media (<code>signed.png</code> or PDF output) and <code>sig.json</code></td></tr>
+            <tr><td><code>POST /api/v1/signing/package/verify</code></td><td>Multipart signed <code>file</code>, matching <code>sig_file</code>, and same <code>key</code></td><td>JSON including <code>is_valid</code>, <code>verdict</code>, <code>mode</code>, and sometimes <code>similarity_score</code> or per-page results</td></tr>
+          </tbody></table></div>
+          <p class="small">These are observed website-backend routes. Its backend forwards requests to a protected signing service using a server-only credential. Do not embed that credential in browser code. Authentication, quotas, payload limits, retention, retry rules, versioning, and support terms must be confirmed before external API use.</p>
+          <div class="card"><h3>Package invariant</h3><p>The current verifier cannot recreate <code>sig.json</code> from signed media. Treat media, metadata, and key recovery as one lifecycle. Store your own asset ID and record version alongside the package; a ZIP alone does not encode verified issuer authority or a full rights history.</p></div>
+        </section>
+        <section id="storage"><p class="label">03 / Custody and file behavior</p><h2>Design around the current limits</h2>
+          <ul><li><strong>Key handling:</strong> the passphrase reaches the WaveSign server during the present flow. Avoid reusing customer production secrets in a public demo. Agree on customer-specific storage, access, rotation/recovery, and logging policy for a pilot.</li><li><strong>Originals:</strong> preserve the untouched original separately. Signing produces a signed derivative; do not overwrite an authoritative source file.</li><li><strong>PDFs:</strong> the current method rasterizes pages and rebuilds an image-PDF. Searchable text, forms, annotations, accessibility features, and original structure may be lost. Do not run an authoritative patent PDF or editable agreement through this mode as a replacement for the original.</li><li><strong>Claims:</strong> a match establishes only that the submitted package and key passed the current check. Neither a similarity score nor the label “AUTHENTIC” decides who created the work or owns its rights.</li><li><strong>Privacy:</strong> confidential asset upload is out of scope for this demo. A pilot needs verified retention and deletion statements, access controls, processing location, and terms before real material is submitted.</li></ul>
+        </section>
+        <section id="errors"><p class="label">04 / Failure handling</p><h2>Report the result you actually know</h2>
+          <div class="table-wrap"><table class="doc-table"><thead><tr><th scope="col">Condition</th><th scope="col">Customer-facing interpretation</th><th scope="col">Next action</th></tr></thead><tbody>
+            <tr><td>Missing media, <code>sig.json</code>, or key</td><td>Verification cannot run.</td><td>Locate the original matching package and key.</td></tr>
+            <tr><td><code>is_valid: false</code></td><td>The supplied file, metadata, and key did not verify together. Cause is undetermined.</td><td>Check that the files and key belong to the same issuance; preserve failed inputs for review.</td></tr>
+            <tr><td>Unsupported file / validation error</td><td>The request could not be processed.</td><td>Check format, size, and required multipart fields; do not silently retry unchanged input.</td></tr>
+            <tr><td>Timeout, 429, or upstream 5xx</td><td>No reliable verdict was obtained.</td><td>Apply bounded retry/backoff under agreed limits; surface unresolved status.</td></tr>
+          </tbody></table></div>
+          <p>Do not equate an unavailable service with a failed integrity check. Do not infer alteration from a negative check alone.</p>
+        </section>
+        <section id="passport-added"><p class="label">05 / Evidence Passport layer</p><h2>What the surrounding record adds</h2>
+          <div class="table-wrap"><table class="doc-table"><thead><tr><th scope="col">Signed package</th><th scope="col">Passport record your application maintains</th></tr></thead><tbody>
+            <tr><td>Signed media and matching verification metadata</td><td>Stable asset ID, issuer assertion, record version, source links, rights declaration, review state</td></tr>
+            <tr><td>Technical check with the same key</td><td>Who asserted what, what a source supports, what remains unresolved, and which record version accompanied the file</td></tr>
+            <tr><td>Current result for submitted inputs</td><td>Supersession history and reviewer decision; these require separate governance and are not generated by the current WaveSign API</td></tr>
+          </tbody></table></div>
+          <p>For a real pilot, an issuer identity process and a cryptographically bound, versioned manifest may be needed so reviewers can detect a signed file paired with outdated or swapped passport claims. The static examples do not provide that binding.</p>
+        </section>
+        <section id="pilot"><p class="label">06 / Scoped pilot</p><h2>Before using a real asset</h2>
+          <div class="card warning"><p><strong>Confirm in writing:</strong> authorized issuer and rights to process/display the sample; access and tenant isolation; maximum file size/page count; processing and retention; key custody; output/version behavior; error and retry policy; rate limits and cost guardrail; support and deletion procedure. An independent verification or legal claim requires a separate design and review.</p></div>
+          <p>The first discussion should establish one workflow owner, one permitted sample asset, expected review volume, and a named budget or sponsor. No account system, database, marketplace, or patent ingestion is needed to test that demand.</p>
+          <a class="button primary" href="index.html#try-it">Try the synthetic workflow →</a>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer><div class="shell footer-inner"><span>WaveSign · Evidence Passport concept</span><span>Integration access subject to a scoped pilot</span><a href="index.html">Passport demo ↑</a></div></footer>
+</body>
+</html>
