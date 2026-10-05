@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore illustrative evidence passports for a technical invention and a cultural asset. See how WaveSign file checks fit an IP evidence workflow.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Evidence Passport Demo · WaveSign</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/passport.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="WaveSign Evidence Passport home">
+        <img src="assets/wavesign-mark.png" alt="" width="48" height="55">
+        <span>WaveSign <small>Evidence Passport</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a aria-current="page" href="index.html">Passport demo</a>
+        <a href="integrate.html">Integrate WaveSign</a>
+        <a href="https://wave-sign.com/" rel="noopener">Main site ↗</a>
+      </nav>
+    </div>
+  </header>
+  <div class="preview-banner"><div class="shell"><strong>Founder review preview</strong><span>Fictional assets and a public disposable key · no issuer-backed Passport or customer upload on this page</span></div></div>
+  <main id="main">
+    <section class="hero shell">
+      <div>
+        <p class="eyebrow">WaveSign for IP evidence · illustrative demo</p>
+        <h1>Show what accompanied an asset. Check the file you received.</h1>
+        <p class="lede">An Evidence Passport organizes an issuer's statements, source links, rights context, and open questions. WaveSign checks a signed file with its matching metadata and the same key. These are separate claims.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#passport">Explore a passport <span aria-hidden="true">→</span></a>
+          <a class="button secondary" href="integrate.html">See the integration</a>
+        </div>
+      </div>
+      <aside class="hero-art" aria-label="Evidence package illustration">
+        <div class="art-label">SAMPLE PACKAGE / VERSION 1</div>
+        <div class="art-card"><span class="art-icon">01</span><span>Asset record <small>Assertions and source context</small></span></div>
+        <div class="art-card"><span class="art-icon teal">02</span><span>Signed media <small>Image or visual PDF copy</small></span></div>
+        <div class="art-card"><span class="art-icon">03</span><span>sig.json + key <small>Required for verification</small></span></div>
+        <div class="art-foot">A matching file does not prove ownership or rights.</div>
+      </aside>
+    </section>
+
+    <section class="boundary" aria-label="What the check means">
+      <div class="shell boundary-grid">
+        <div><strong>WaveSign can check</strong><p>Whether signed media, matching <code>sig.json</code>, and the same key verify together under the current operation.</p></div>
+        <div><strong>People still establish</strong><p>Who issued the statements, whether sources are authoritative, and whether title, consent, or patent rights exist.</p></div>
+      </div>
+    </section>
+
+    <section id="passport" class="section shell" aria-labelledby="passport-title">
+      <p class="eyebrow">One structure · two possible markets</p>
+      <h2 id="passport-title">Explore a sample Evidence Passport</h2>
+      <p class="section-intro">Both records are fictional and use original synthetic images. No patent, collection, owner, or permission is represented as real.</p>
+      <div class="switcher" role="group" aria-label="Choose an example">
+        <button type="button" class="choice active" data-example="technical" aria-pressed="true">Technical invention <small>R&amp;D and diligence</small></button>
+        <button type="button" class="choice" data-example="heritage" aria-pressed="false">Cultural asset <small>Archive and licensing</small></button>
+      </div>
+
+      <div class="passport-grid">
+        <div class="passport-main">
+          <article class="card asset-card" aria-live="polite">
+            <div class="asset-header"><span class="tag">ILLUSTRATIVE · NOT ISSUED</span><span id="asset-version" class="quiet"></span></div>
+            <div class="asset-detail">
+              <img id="asset-image" src="assets/sample-optical.png" alt="Abstract synthetic optical pattern" width="720" height="480">
+              <div>
+                <p id="asset-id" class="mono quiet"></p>
+                <h3 id="asset-title"></h3>
+                <p id="asset-description"></p>
+              </div>
+            </div>
+            <dl class="facts">
+              <div><dt>Issuer statement</dt><dd id="issuer"></dd></div>
+              <div><dt>Source / collection</dt><dd id="source"></dd></div>
+              <div><dt>Declared rights</dt><dd id="rights"></dd></div>
+              <div><dt>Review status</dt><dd id="review"></dd></div>
+              <div class="wide"><dt>Signed media SHA-256</dt><dd id="fingerprint" class="mono hash"></dd></div>
+            </dl>
+          </article>
+          <section class="card" aria-labelledby="evidence-title">
+            <div class="card-head"><h3 id="evidence-title">Evidence and limitations</h3><span class="tag muted">SAMPLE ENTRIES</span></div>
+            <div class="table-wrap"><table><thead><tr><th scope="col">Evidence</th><th scope="col">Source / status</th><th scope="col">Limit</th></tr></thead><tbody id="evidence-rows"></tbody></table></div>
+          </section>
+        </div>
+        <aside class="passport-side">
+          <section class="card" aria-labelledby="claims-title"><h3 id="claims-title">Keep the claims separate</h3>
+            <div class="claim"><span class="dot indigo"></span><div><strong>Issuer assertion</strong><p id="claim-issuer"></p></div></div>
+            <div class="claim"><span class="dot teal"></span><div><strong>Source-backed fact</strong><p id="claim-source"></p></div></div>
+            <div class="claim"><span class="dot amber"></span><div><strong>Unresolved</strong><p id="claim-open"></p></div></div>
+          </section>
+          <section class="card check-card" aria-labelledby="check-title"><h3 id="check-title">File-integrity check</h3>
+            <p>Verification takes the signed media, its matching <code>sig.json</code>, and the original key. A failed check alone does not identify which input changed.</p>
+            <p class="status-note">The synthetic file has a working demonstration package. Its public demo key establishes no issuer identity, and these Passport statements are not bound to the signed media.</p>
+            <div class="result-pair"><div><strong>Unchanged sample</strong><span>Verified ✓</span></div><div><strong>Visibly changed copy</strong><span>Did not verify ✕</span></div></div>
+            <p class="quiet">Observed on 4 October 2026 UTC for these exact sample files. Repeat the check below; results are not a guarantee for other files or changes.</p>
+            <a class="button primary full" href="#try-it">Try the synthetic workflow <span aria-hidden="true">↓</span></a>
+          </section>
+        </aside>
+      </div>
+      <section class="card questions" aria-labelledby="questions-title"><h3 id="questions-title">Questions for a real issuer</h3><ul id="questions-list"></ul></section>
+    </section>
+
+    <section id="try-it" class="section experiment" aria-labelledby="try-title"><div class="shell">
+      <p class="eyebrow">Guided test · synthetic files only</p><h2 id="try-title">See a real check using the current signer</h2>
+      <p class="section-intro">These two pre-prepared packages were signed and checked through the existing WaveSign API. The current signer performs your repeat verification. The key below is public and disposable; never use it for a real asset or upload confidential material for this demo.</p>
+      <ol class="steps">
+        <li><span class="step-num">1</span><div><h3>Download the sample inputs</h3><p id="sample-description">A fictional optical pattern created for this demo.</p><p class="download-links"><a id="package-download" class="text-link" href="assets/sample-optical-signed.zip" download>Whole ZIP</a><a id="signed-download" class="text-link" href="assets/sample-optical-package/signed.png" download="signed.png">Signed PNG</a><a id="metadata-download" class="text-link" href="assets/sample-optical-package/sig.json" download="sig.json">Matching sig.json</a><a id="changed-download" class="text-link" href="assets/sample-optical-package/changed-sample.png" download="changed-sample.png">Changed PNG</a></p></div></li>
+        <li><span class="step-num">2</span><div><h3>Use the public demo key</h3><p>Enter this exact disposable key for both checks: <code class="demo-key">wavesign-public-demo-key-2026</code>. The key does not identify an issuer; anyone can see and reuse it for this demonstration.</p></div></li>
+        <li><span class="step-num">3</span><div><h3>Verify the unchanged file</h3><p>Open the existing signer in a new tab, select “Verify package,” then choose <code>signed.png</code>, the matching <code>sig.json</code>, and the demo key. A match was observed for this file.</p><a class="text-link" href="https://wave-sign.com/image-signing" target="_blank" rel="noopener noreferrer">Open WaveSign verifier ↗</a></div></li>
+        <li><span class="step-num">4</span><div><h3>Compare the changed copy</h3><p>Replace only the media input with <code>changed-sample.png</code>; keep the same <code>sig.json</code> and key. This exact changed file did not verify in our test. A negative result by itself does not explain the cause.</p></div></li>
+      </ol>
+      <p class="quiet">To try signing yourself, download the <a id="sample-download" href="assets/sample-optical.png" download="sample-optical.png">original synthetic PNG</a> and use the sign tab with a new disposable key. Keep the ZIP it returns.</p>
+      <div class="callout"><strong>What a match means:</strong> this signed file verified with these inputs under the current check. It does not authenticate the sample issuer, the passport statements, a patent, or cultural permissions. Test outcomes can depend on the file and transformation.</div>
+    </div></section>
+
+    <section class="section shell next"><div><p class="eyebrow">Explore a possible workflow</p><h2>Could this fit your evidence process?</h2><p>A bounded pilot would start with an authorized sample asset, a named workflow owner, and clear review requirements. This preview is for evaluating the concept and its integration boundary; pilot intake opens after the founder reviews the claims and privacy path.</p><p class="quiet">Do not submit confidential IP or a production key to the public signer for this demonstration.</p></div><div class="next-actions"><a class="button primary" href="integrate.html">How integration works →</a><a class="button secondary" href="https://wave-sign.com/">WaveSign main site ↗</a></div></section>
+  </main>
+  <footer><div class="shell footer-inner"><span>WaveSign · Evidence Passport concept</span><span>Illustrative records · no claim of title, validity, or consent</span><a href="https://wave-sign.com/">Main site ↗</a></div></footer>
+</body>
+</html>
